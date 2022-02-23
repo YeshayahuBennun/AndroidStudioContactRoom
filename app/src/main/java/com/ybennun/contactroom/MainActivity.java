@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 builder.append("-").append(contact.getName()).append("-").append(contact.getOccupation());
                 Log.d("TAG", "onCreate: " + contact.getName());
             }
-            textView.setText(builder.toString());
+
         });
 
         FloatingActionButton fab = findViewById(R.id.add_contact_fab);
