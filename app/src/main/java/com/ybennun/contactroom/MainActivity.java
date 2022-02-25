@@ -20,9 +20,11 @@ import com.ybennun.contactroom.model.Contact;
 import com.ybennun.contactroom.model.ContactViewModel;
 
 import java.util.List;
+import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnContactClickListener {
     private static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
+    private static final String TAG = "Clicked";
     private ContactViewModel contactViewModel;
     private TextView textView;
     private RecyclerView recyclerView;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         contactViewModel.getAllContacts().observe(this, contacts -> {
 
-            recyclerViewAdapter = new RecyclerViewAdapter(contacts, MainActivity.this);
+            recyclerViewAdapter = new RecyclerViewAdapter(contacts, MainActivity.this, this);
             recyclerView.setAdapter(recyclerViewAdapter);
         });
 
@@ -74,5 +76,13 @@ public class MainActivity extends AppCompatActivity {
 
             ContactViewModel.insert(contact);
         }
+    }
+
+    @Override
+    public void onContactClick(int position) {
+        Contact contact = Objects.requireNonNull(contactViewModel.allContacts
+                .getValue()).get(position);
+        Log.d(TAG, "onContactClick: " + contact.getName());
+        //startActivity(new Intent(MainActivity.this,NewContact.class));
     }
 }
