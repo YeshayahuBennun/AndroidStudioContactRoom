@@ -22,6 +22,8 @@ public class ContactViewModel extends AndroidViewModel {
         allContacts = repository.getAllData();
     }
 
+    //Crud
+
     public LiveData<List<Contact>> getAllContacts() {
         return allContacts;
     }
