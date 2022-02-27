@@ -10,13 +10,13 @@
         android:id="@+id/enter_name"
         style="@style/FormStyle"
         android:layout_marginTop="16dp"
+        android:autofillHints=""
         android:hint="@string/name_hint"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/enter_occupation"
@@ -24,6 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/occupation_hint"
         android:inputType="textPersonName"
@@ -31,8 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_name"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/enter_name" />
 
     <Button
         android:id="@+id/save_button"
@@ -44,4 +44,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enter_occupation" />
+
+    <Button
+        android:id="@+id/update_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/update_text"
+        app:layout_constraintEnd_toStartOf="@+id/delete_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/save_button" />
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/delete_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/update_button"
+        app:layout_constraintTop_toBottomOf="@+id/save_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
