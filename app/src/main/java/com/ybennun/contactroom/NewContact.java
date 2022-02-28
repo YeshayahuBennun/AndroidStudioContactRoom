@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.ybennun.contactroom.model.Contact;
 import com.ybennun.contactroom.model.ContactViewModel;
 
@@ -21,6 +22,10 @@ public class NewContact extends AppCompatActivity {
     private EditText enterName;
     private EditText enterOccupation;
     private Button saveInfoButton;
+    private int contactId = 0;
+    private boolean isEdit;
+    private Button updateButton;
+    private Button deleteButton;
 
     private ContactViewModel contactViewModel;
 
@@ -36,6 +41,18 @@ public class NewContact extends AppCompatActivity {
         contactViewModel = new ViewModelProvider.AndroidViewModelFactory(NewContact.this
                 .getApplication())
                 .create(ContactViewModel.class);
+
+        if (getIntent().hasExtra(MainActivity.CONTACT_ID)) {
+            contactId = getIntent().getIntExtra(MainActivity.CONTACT_ID, 0);
+            contactViewModel.get(contactId).observe(this, contact -> {
+                if (contact != null) {
+                    enterName.setText(contact.getName());
+                    enterOccupation.setText(contact.getOccupation());
+                }
+            });
+
+            isEdit = true;
+        }
 
         saveInfoButton.setOnClickListener(view -> {
             Intent replayIntent = new Intent();
@@ -54,13 +71,33 @@ public class NewContact extends AppCompatActivity {
             finish();
         });
 
-        Bundle data = getIntent().getExtras();
-        if (data != null) {
-            int id = data.getInt(MainActivity.CONTACT_ID);
-            contactViewModel.get(id).observe(this, contact -> {
-                enterName.setText(contact.getName());
-                enterOccupation.setText(contact.getOccupation());
-            });
+        //Update button
+        updateButton = findViewById(R.id.update_button);
+        deleteButton = findViewById(R.id.delete_button);
+
+        updateButton.setOnClickListener(v -> {
+            int id = contactId;
+            String name = enterName.getText().toString().trim();
+            String occupation = enterOccupation.getText().toString().trim();
+
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(occupation)) {
+                Snackbar.make(enterName, R.string.empty, Snackbar.LENGTH_SHORT)
+                        .show();
+            } else {
+                Contact contact = new Contact();
+                contact.setId(id);
+                contact.setName(name);
+                contact.setOccupation(occupation);
+                ContactViewModel.update(contact);
+                finish();
+            }
+        });
+        if (isEdit) {
+            saveInfoButton.setVisibility(View.GONE);
+        } else {
+            updateButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
         }
+
     }
 }
