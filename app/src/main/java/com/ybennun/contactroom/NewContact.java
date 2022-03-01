@@ -73,25 +73,8 @@ public class NewContact extends AppCompatActivity {
 
         //Update button
         updateButton = findViewById(R.id.update_button);
-        deleteButton = findViewById(R.id.delete_button);
+        updateButton.setOnClickListener(v ->  edit(false));
 
-        updateButton.setOnClickListener(v -> {
-            int id = contactId;
-            String name = enterName.getText().toString().trim();
-            String occupation = enterOccupation.getText().toString().trim();
-
-            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(occupation)) {
-                Snackbar.make(enterName, R.string.empty, Snackbar.LENGTH_SHORT)
-                        .show();
-            } else {
-                Contact contact = new Contact();
-                contact.setId(id);
-                contact.setName(name);
-                contact.setOccupation(occupation);
-                ContactViewModel.update(contact);
-                finish();
-            }
-        });
         if (isEdit) {
             saveInfoButton.setVisibility(View.GONE);
         } else {
@@ -99,5 +82,29 @@ public class NewContact extends AppCompatActivity {
             deleteButton.setVisibility(View.GONE);
         }
 
+        //Delete
+        deleteButton = findViewById(R.id.delete_button);
+        deleteButton.setOnClickListener(view -> edit(true));
+
+    }
+
+    private void edit(Boolean isDelete) {
+        String name = enterName.getText().toString().trim();
+        String occupation = enterOccupation.getText().toString().trim();
+
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(occupation)) {
+            Snackbar.make(enterName, R.string.empty, Snackbar.LENGTH_SHORT)
+                    .show();
+        } else {
+            Contact contact = new Contact();
+            contact.setId(contactId);
+            contact.setName(name);
+            contact.setOccupation(occupation);
+            if (isDelete)
+                ContactViewModel.delete(contact);
+            else
+                ContactViewModel.update(contact);
+            finish();
+        }
     }
 }
